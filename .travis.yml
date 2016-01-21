@@ -1,0 +1,17 @@
+language: python
+python:
+  - "3.4"
+branches:
+  only:
+    - master
+    - develop
+install:
+  - pip install -v pyhamcrest
+  - pip install -v coveralls
+  - pip install -v Django
+before_script:
+  - export PYTHONPATH='.'
+script:
+  - coverage run --source=polls manage.py test polls
+after_success:
+  - coveralls
