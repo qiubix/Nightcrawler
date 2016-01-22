@@ -10,7 +10,7 @@ def index(request):
 <body>
 
 <h1>Public tenders map</h1>
-<p>This site displays map of contractors and principals connected by executed contracts.</p>
+<p>This site displays map of contractors and procurers connected by executed contracts.</p>
 
 </body>
 </html> """)
