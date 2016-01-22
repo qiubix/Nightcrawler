@@ -13,5 +13,6 @@ before_script:
   - export PYTHONPATH='.'
 script:
   - coverage run --source=polls manage.py test polls
+  - coverage run --source=tenders manage.py test tenders
 after_success:
   - coveralls
