@@ -1,17 +1,19 @@
 from django.http import HttpResponse
+from django.views import generic
+from .models import Procurer, Tender
 
 
-def index(request):
-    return HttpResponse(""" <!DOCTYPE html>
-<html>
-<head>
-<title>Tenders</title>
-</head>
-<body>
+class IndexView(generic.ListView):
+    template_name = 'tenders/index.html'
+    context_object_name = 'tenders'
 
-<h1>Public tenders map</h1>
-<p>This site displays map of contractors and procurers connected by executed contracts.</p>
+    def get_queryset(self):
+        return Tender.objects.all()
 
-</body>
-</html> """)
 
+class ProcurersView(generic.ListView):
+    template_name = 'tenders/procurers.html'
+    context_object_name = 'all_procurers_list'
+
+    def get_queryset(self):
+        return Procurer.objects.all()

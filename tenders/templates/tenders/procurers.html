@@ -1,0 +1,9 @@
+{% if all_procurers_list %}
+    <ul>
+        {% for procurer in all_procurers_list %}
+            <li><p>procurer.name</p></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No procurers are available.</p>
+{% endif %}

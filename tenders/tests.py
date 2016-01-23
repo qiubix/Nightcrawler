@@ -15,3 +15,11 @@ class IndexViewTests(TestCase):
         assert_that(response.status_code, equal_to(200))
         self.assertContains(response,
                             "This site displays map of contractors and procurers connected by executed contracts.")
+
+
+class ProcurersViewTests(TestCase):
+    def test_procurer_view_with_no_data(self):
+        response = self.client.get(reverse('tenders:procurers'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No procurers are available.")
+        self.assertQuerysetEqual(response.context['all_procurers_list'], [])
