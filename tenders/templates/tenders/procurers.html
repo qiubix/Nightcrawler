@@ -1,11 +1,21 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tenders/style.css' %}" />
+
 {% if all_procurers_list %}
-    <table style="width:100%">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Company name</th>
+            <th>City</th>
+            <th>Full address</th>
+        </tr>
         {% for procurer in all_procurers_list %}
             <tr>
-                <td><p>{{ procurer.id }}</p></td>
-                <td><p>{{ procurer.company_name }}</p></td>
-                <td><p>{{ procurer.city }}</p></td>
-                <td><p>{{ procurer.address }}</p></td>
+                <td>{{ procurer.id }}</td>
+                <td>{{ procurer.company_name }}</td>
+                <td>{{ procurer.city }}</td>
+                <td>{{ procurer.address }}</td>
             </tr>
         {% endfor %}
     </table>
