@@ -1,0 +1,18 @@
+body {
+    background: lightblue;
+}
+
+h1 {
+    color: navy;
+    width: 30%;
+    margin: auto;
+}
+table {
+    width: 100%;
+    border: 3px ridge navy;
+}
+
+th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}

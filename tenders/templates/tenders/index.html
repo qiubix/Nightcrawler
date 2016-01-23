@@ -1,0 +1,9 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tenders/style.css' %}" />
+
+<h1>Public tenders map</h1>
+<p>This site displays map of contractors and procurers connected by executed contracts.</p>
+
+<a href="{% url 'tenders:procurers' %}">List of procurers</a>
+<a href="{% url 'tenders:contractors' %}">List of contractors</a>
