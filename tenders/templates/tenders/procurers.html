@@ -1,9 +1,14 @@
 {% if all_procurers_list %}
-    <ul>
+    <table style="width:100%">
         {% for procurer in all_procurers_list %}
-            <li><p>procurer.name</p></li>
+            <tr>
+                <td><p>{{ procurer.id }}</p></td>
+                <td><p>{{ procurer.company_name }}</p></td>
+                <td><p>{{ procurer.city }}</p></td>
+                <td><p>{{ procurer.address }}</p></td>
+            </tr>
         {% endfor %}
-    </ul>
+    </table>
 {% else %}
     <p>No procurers are available.</p>
 {% endif %}
