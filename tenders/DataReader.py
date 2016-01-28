@@ -1,11 +1,11 @@
-class Contractor:
+class ContractorData:
     pass
 
 
-class Procurer:
+class ProcurerData:
     def __init__(self):
-        self.company_name = 'Oddział Specjalny Żandarmerii Wojskowej'
-        self.city = 'Mińsk Mazowiecki'
+        self.company_name = ''
+        self.city = ''
 
 
 class DataReader:
@@ -14,8 +14,11 @@ class DataReader:
         self.contractors = []
 
     def load(self, fileName):
-        self.contractors.append(Contractor())
-        self.procurers.append(Procurer())
+        procurer = ProcurerData()
+        procurer.company_name = 'Oddział Specjalny Żandarmerii Wojskowej'
+        procurer.city = 'Mińsk Mazowiecki'
+        self.contractors.append(ContractorData())
+        self.procurers.append(procurer)
 
     def getContractors(self):
         return self.contractors

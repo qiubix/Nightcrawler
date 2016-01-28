@@ -2,7 +2,7 @@ from hamcrest import *
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from .models import Procurer, Contractor
-from .DataReader import DataReader
+from .DataReader import DataReader, ProcurerData
 
 
 # Create your tests here.
@@ -117,6 +117,18 @@ class ContractorsViewTests(TestCase):
         self.assertContains(response, '<td>First</td>')
         self.assertContains(response, '<td>City 2</td>')
         self.assertContains(response, '<td>Street 3</td>')
+
+
+class ProcurerDataTests(TestCase):
+    def test_should_have_empty_company_name_on_init(self):
+        procurerData = ProcurerData()
+
+        assert_that(procurerData.company_name, equal_to(''))
+
+    def test_should_have_empty_city_on_init(self):
+        procurerData = ProcurerData()
+
+        assert_that(procurerData.city, equal_to(''))
 
 
 class DataReaderTests(TestCase):
