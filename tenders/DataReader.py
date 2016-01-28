@@ -9,6 +9,7 @@ class ProcurerData:
     def __init__(self):
         self.company_name = ''
         self.city = ''
+        self.full_address = 'ul. Warszawska, 05-300 Mińsk Mazowiecki'
 
 
 class DataReader:

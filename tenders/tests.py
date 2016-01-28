@@ -175,3 +175,14 @@ class DataReaderTests(TestCase):
         secondProcurer = procurers[1]
         assert_that(secondProcurer, is_not(None))
         assert_that(secondProcurer.city, equal_to('Warszawa'))
+
+    def test_should_get_procurer_full_address(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        procurers = reader.getProcurers()
+        assert_that(len(procurers), greater_than(0))
+        firstProcurer = procurers[0]
+        assert_that(firstProcurer, is_not(None))
+        assert_that(firstProcurer.full_address, equal_to('ul. Warszawska, 05-300 Mińsk Mazowiecki'))
