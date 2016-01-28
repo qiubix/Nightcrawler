@@ -2,6 +2,7 @@ from hamcrest import *
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from .models import Procurer, Contractor
+from .DataReader import DataReader
 
 
 # Create your tests here.
@@ -116,3 +117,32 @@ class ContractorsViewTests(TestCase):
         self.assertContains(response, '<td>First</td>')
         self.assertContains(response, '<td>City 2</td>')
         self.assertContains(response, '<td>Street 3</td>')
+
+
+class DataReaderTests(TestCase):
+    def test_should_get_only_one_contractor(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        contractors = reader.getContractors()
+        assert_that(len(contractors), equal_to(1))
+
+    def test_should_get_one_procurer(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        procurers = reader.getProcurers()
+        assert_that(len(procurers), equal_to(1))
+
+    def test_should_get_procurer_with_correct_name(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        procurers = reader.getProcurers()
+        assert_that(len(procurers), greater_than(0))
+        firstProcurer = procurers[0]
+        assert_that(firstProcurer, is_not(None))
+        assert_that(firstProcurer.company_name, equal_to('Oddział Specjalny Żandarmerii Wojskowej'))
