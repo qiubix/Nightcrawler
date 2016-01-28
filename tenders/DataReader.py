@@ -57,18 +57,23 @@ class DataReader:
                 # print(p.string)
                 nextContainsAddress = True
             elif nextContainsAddress:
-                fullAddress = p.contents[1]
-                fullAddress = fullAddress.split(',', 1)[-1]
-                street = fullAddress.split(',', 1)[0]
-                fullAddress = fullAddress.split(',', 1)[-1]
-                postal = fullAddress.split(',', 1)[0]
-                street = street.lstrip()
-                street = street.rstrip()
-                postal = postal.lstrip()
-                postal = postal.rstrip()
+                fullAddressData = p.contents[1]
+
+                street = fullAddressData.split(',')[1]
+                street = self.trimSideWhitespace(street)
+
+                postal = fullAddressData.split(',')[2]
+                postal = self.trimSideWhitespace(postal)
+
                 fullAddress = street + ', ' + postal
                 nextContainsAddress = False
                 # print(fullAddress)
                 return fullAddress
+
         # print(soup.prettify())
         # print(unescapedText)
+
+    def trimSideWhitespace(self, text):
+        trimmed = text.lstrip()
+        trimmed = trimmed.rstrip()
+        return trimmed
