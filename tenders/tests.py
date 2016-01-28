@@ -195,3 +195,6 @@ class DataReaderTests(TestCase):
         firstProcurer = procurers[0]
         assert_that(firstProcurer, is_not(None))
         assert_that(firstProcurer.full_address, equal_to('ul. Warszawska, 05-300 Mińsk Mazowiecki'))
+        secondProcurer = procurers[1]
+        assert_that(secondProcurer, is_not(None))
+        assert_that(secondProcurer.full_address, equal_to('ul. W.K. Roentgena 5, 02-781 Warszawa'))
