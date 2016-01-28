@@ -11,7 +11,7 @@ class ProcurerData:
     def __init__(self):
         self.company_name = ''
         self.city = ''
-        self.full_address = 'ul. Warszawska, 05-300 Mińsk Mazowiecki'
+        self.full_address = ''
 
 
 class DataReader:
@@ -37,6 +37,10 @@ class DataReader:
                 if childNode.nodeName == 'miejscowosc':
                     city = childNode.firstChild.nodeValue.rstrip()
                     procurer.city = city
+                if childNode.nodeName == 'tekst':
+                    tenderText = childNode.firstChild.nodeValue
+                    fullAddress = self.extractProcurersAddress(tenderText)
+                    procurer.full_address = fullAddress
 
             self.procurers.append(procurer)
 
