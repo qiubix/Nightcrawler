@@ -146,3 +146,14 @@ class DataReaderTests(TestCase):
         firstProcurer = procurers[0]
         assert_that(firstProcurer, is_not(None))
         assert_that(firstProcurer.company_name, equal_to('Oddział Specjalny Żandarmerii Wojskowej'))
+
+    def test_should_get_procurer_with_correct_city(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        procurers = reader.getProcurers()
+        assert_that(len(procurers), greater_than(0))
+        firstProcurer = procurers[0]
+        assert_that(firstProcurer, is_not(None))
+        assert_that(firstProcurer.city, equal_to('Mińsk Mazowiecki'))

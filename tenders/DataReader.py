@@ -5,6 +5,7 @@ class Contractor:
 class Procurer:
     def __init__(self):
         self.company_name = 'Oddział Specjalny Żandarmerii Wojskowej'
+        self.city = 'Mińsk Mazowiecki'
 
 
 class DataReader:
