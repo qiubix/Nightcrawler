@@ -140,15 +140,15 @@ class DataReaderTests(TestCase):
         contractors = reader.getContractors()
         assert_that(len(contractors), equal_to(1))
 
-    def test_should_get_one_procurer(self):
+    def test_should_get_two_procurers(self):
         reader = DataReader()
 
         reader.load('data/test/one_tender.xml')
 
         procurers = reader.getProcurers()
-        assert_that(len(procurers), equal_to(1))
+        assert_that(len(procurers), equal_to(2))
 
-    def test_should_get_procurer_with_correct_name(self):
+    def test_should_get_procurers_with_correct_name(self):
         reader = DataReader()
 
         reader.load('data/test/one_tender.xml')
@@ -158,8 +158,11 @@ class DataReaderTests(TestCase):
         firstProcurer = procurers[0]
         assert_that(firstProcurer, is_not(None))
         assert_that(firstProcurer.company_name, equal_to('Oddział Specjalny Żandarmerii Wojskowej'))
+        secondProcurer = procurers[1]
+        assert_that(secondProcurer, is_not(None))
+        assert_that(secondProcurer.company_name, equal_to('Centrum Onkologii Instytut im. Marii Skłodowskiej-Curie'))
 
-    def test_should_get_procurer_with_correct_city(self):
+    def test_should_get_procurers_with_correct_city(self):
         reader = DataReader()
 
         reader.load('data/test/one_tender.xml')
@@ -169,3 +172,6 @@ class DataReaderTests(TestCase):
         firstProcurer = procurers[0]
         assert_that(firstProcurer, is_not(None))
         assert_that(firstProcurer.city, equal_to('Mińsk Mazowiecki'))
+        secondProcurer = procurers[1]
+        assert_that(secondProcurer, is_not(None))
+        assert_that(secondProcurer.city, equal_to('Warszawa'))
