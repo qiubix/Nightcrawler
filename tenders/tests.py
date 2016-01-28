@@ -1,6 +1,8 @@
 from hamcrest import *
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+
+from tenders.TestTemplates import getSampleText
 from .models import Procurer, Contractor
 from .DataReader import DataReader, ProcurerData
 
@@ -175,6 +177,13 @@ class DataReaderTests(TestCase):
         secondProcurer = procurers[1]
         assert_that(secondProcurer, is_not(None))
         assert_that(secondProcurer.city, equal_to('Warszawa'))
+
+    def test_should_extract_procurers_address_from_text(self):
+        reader = DataReader()
+
+        address = reader.extractProcurersAddress(getSampleText())
+
+        assert_that(address, equal_to('ul. Warszawska, 05-300 Mińsk Mazowiecki'))
 
     def test_should_get_procurer_full_address(self):
         reader = DataReader()

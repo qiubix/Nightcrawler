@@ -9,6 +9,7 @@ install:
   - pip install -v pyhamcrest
   - pip install -v coveralls
   - pip install -v Django
+  - pip install -v beautifulsoup4
 before_script:
   - export PYTHONPATH='.'
 script:
