@@ -198,3 +198,21 @@ class DataReaderTests(TestCase):
         secondProcurer = procurers[1]
         assert_that(secondProcurer, is_not(None))
         assert_that(secondProcurer.full_address, equal_to('ul. W.K. Roentgena 5, 02-781 Warszawa'))
+
+    def test_should_extract_contractor_name_from_text(self):
+        reader = DataReader()
+
+        name = reader.extractContractorName(getSampleText())
+
+        assert_that(name, equal_to('HOLSTERS HPE Polska Grzegorz Szymański'))
+
+    def test_should_get_contractors_with_correct_name(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        contractors = reader.getContractors()
+        assert_that(len(contractors), greater_than(0))
+        firstContractor = contractors[0]
+        assert_that(firstContractor, is_not(None))
+        assert_that(firstContractor.company_name, equal_to(''))

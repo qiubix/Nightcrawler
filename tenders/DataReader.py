@@ -4,7 +4,8 @@ from bs4 import BeautifulSoup
 
 
 class ContractorData:
-    pass
+    def __init__(self):
+        self.company_name = ''
 
 
 class ProcurerData:
@@ -81,3 +82,26 @@ class DataReader:
         trimmed = text.lstrip()
         trimmed = trimmed.rstrip()
         return trimmed
+
+    def extractContractorName(self, text):
+        unescapedText = html.unescape(text)
+        contractorSection = self.extractContractorSection(unescapedText)
+        soup = BeautifulSoup(contractorSection, 'html.parser')
+        addressData = soup.ul.li.string
+        name = addressData.split(',')[0]
+        return name
+
+    def extractContractorSection(self, unescapedText):
+        splitted = unescapedText.split('\n')
+        mark = 'SEKCJA V: UDZIELENIE ZAMÓWIENIA'
+        contractorSection = ''
+        isContractorSection = False
+        for line in splitted:
+            if mark in line:
+                isContractorSection = True
+            if '</body>' in line:
+                isContractorSection = False
+            if isContractorSection:
+                contractorSection += line
+                contractorSection += '\n'
+        return contractorSection
