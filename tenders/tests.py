@@ -1,7 +1,10 @@
 from hamcrest import *
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+
+from tenders.TestTemplates import getSampleText
 from .models import Procurer, Contractor
+from .DataReader import DataReader, ProcurerData
 
 
 # Create your tests here.
@@ -116,3 +119,136 @@ class ContractorsViewTests(TestCase):
         self.assertContains(response, '<td>First</td>')
         self.assertContains(response, '<td>City 2</td>')
         self.assertContains(response, '<td>Street 3</td>')
+
+
+class ProcurerDataTests(TestCase):
+    def test_should_have_empty_company_name_on_init(self):
+        procurerData = ProcurerData()
+
+        assert_that(procurerData.company_name, equal_to(''))
+
+    def test_should_have_empty_city_on_init(self):
+        procurerData = ProcurerData()
+
+        assert_that(procurerData.city, equal_to(''))
+
+
+class DataReaderTests(TestCase):
+    def test_should_get_only_one_contractor(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        contractors = reader.getContractors()
+        assert_that(len(contractors), equal_to(1))
+
+    def test_should_get_two_procurers(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        procurers = reader.getProcurers()
+        assert_that(len(procurers), equal_to(2))
+
+    def test_should_get_procurers_with_correct_name(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        procurers = reader.getProcurers()
+        assert_that(len(procurers), greater_than(0))
+        firstProcurer = procurers[0]
+        assert_that(firstProcurer, is_not(None))
+        assert_that(firstProcurer.company_name, equal_to('Oddział Specjalny Żandarmerii Wojskowej'))
+        secondProcurer = procurers[1]
+        assert_that(secondProcurer, is_not(None))
+        assert_that(secondProcurer.company_name, equal_to('Centrum Onkologii Instytut im. Marii Skłodowskiej-Curie'))
+
+    def test_should_get_procurers_with_correct_city(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        procurers = reader.getProcurers()
+        assert_that(len(procurers), greater_than(0))
+        firstProcurer = procurers[0]
+        assert_that(firstProcurer, is_not(None))
+        assert_that(firstProcurer.city, equal_to('Mińsk Mazowiecki'))
+        secondProcurer = procurers[1]
+        assert_that(secondProcurer, is_not(None))
+        assert_that(secondProcurer.city, equal_to('Warszawa'))
+
+    def test_should_extract_procurers_address_from_text(self):
+        reader = DataReader()
+
+        address = reader.extractProcurersAddress(getSampleText())
+
+        assert_that(address, equal_to('ul. Warszawska, 05-300 Mińsk Mazowiecki'))
+
+    def test_should_get_procurer_full_address(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        procurers = reader.getProcurers()
+        assert_that(len(procurers), greater_than(0))
+        firstProcurer = procurers[0]
+        assert_that(firstProcurer, is_not(None))
+        assert_that(firstProcurer.full_address, equal_to('ul. Warszawska, 05-300 Mińsk Mazowiecki'))
+        secondProcurer = procurers[1]
+        assert_that(secondProcurer, is_not(None))
+        assert_that(secondProcurer.full_address, equal_to('ul. W.K. Roentgena 5, 02-781 Warszawa'))
+
+    def test_should_extract_contractor_name_from_text(self):
+        reader = DataReader()
+
+        name = reader.extractContractorName(getSampleText())
+
+        assert_that(name, equal_to('HOLSTERS HPE Polska Grzegorz Szymański'))
+
+    def test_should_get_contractors_with_correct_name(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        contractors = reader.getContractors()
+        assert_that(len(contractors), greater_than(0))
+        firstContractor = contractors[0]
+        assert_that(firstContractor, is_not(None))
+        assert_that(firstContractor.company_name, equal_to('HOLSTERS HPE Polska Grzegorz Szymański'))
+
+    def test_should_extract_contractor_city_from_text(self):
+        reader = DataReader()
+
+        name = reader.extractContractorCity(getSampleText())
+
+        assert_that(name, equal_to('Kielce'))
+
+    def test_should_extract_contractor_full_address_from_text(self):
+        reader = DataReader()
+
+        name = reader.extractContractorAddress(getSampleText())
+
+        assert_that(name, equal_to('ul. Zagnańska 232, 25-563 Kielce'))
+
+    def test_should_get_contractors_with_correct_city(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        contractors = reader.getContractors()
+        assert_that(len(contractors), greater_than(0))
+        firstContractor = contractors[0]
+        assert_that(firstContractor, is_not(None))
+        assert_that(firstContractor.city, equal_to('Kielce'))
+
+    def test_should_get_contractors_with_correct_full_address(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        contractors = reader.getContractors()
+        assert_that(len(contractors), greater_than(0))
+        firstContractor = contractors[0]
+        assert_that(firstContractor, is_not(None))
+        assert_that(firstContractor.full_address, equal_to('ul. Zagnańska 232, 25-563 Kielce'))
