@@ -230,3 +230,25 @@ class DataReaderTests(TestCase):
         name = reader.extractContractorAddress(getSampleText())
 
         assert_that(name, equal_to('ul. Zagnańska 232, 25-563 Kielce'))
+
+    def test_should_get_contractors_with_correct_city(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        contractors = reader.getContractors()
+        assert_that(len(contractors), greater_than(0))
+        firstContractor = contractors[0]
+        assert_that(firstContractor, is_not(None))
+        assert_that(firstContractor.city, equal_to('Kielce'))
+
+    def test_should_get_contractors_with_correct_full_address(self):
+        reader = DataReader()
+
+        reader.load('data/test/one_tender.xml')
+
+        contractors = reader.getContractors()
+        assert_that(len(contractors), greater_than(0))
+        firstContractor = contractors[0]
+        assert_that(firstContractor, is_not(None))
+        assert_that(firstContractor.full_address, equal_to('ul. Zagnańska 232, 25-563 Kielce'))

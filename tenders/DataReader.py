@@ -47,6 +47,8 @@ class DataReader:
 
                     contractorName = self.extractContractorName(tenderText)
                     contractor.company_name = contractorName
+                    contractor.city = self.extractContractorCity(tenderText)
+                    contractor.full_address = self.extractContractorAddress(tenderText)
 
             self.procurers.append(procurer)
             if contractor.company_name != '':
