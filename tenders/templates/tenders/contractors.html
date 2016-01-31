@@ -1,0 +1,24 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tenders/style.css' %}" />
+
+{% if all_contractors_list %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Company name</th>
+            <th>City</th>
+            <th>Full address</th>
+        </tr>
+        {% for contractor in all_contractors_list %}
+            <tr>
+                <td>{{ contractor.id }}</td>
+                <td>{{ contractor.company_name }}</td>
+                <td>{{ contractor.city }}</td>
+                <td>{{ contractor.address }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No contractors are available.</p>
+{% endif %}

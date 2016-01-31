@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'tenders.apps.TendersConfig',
     'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -120,3 +121,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# no_local_settings = False
+# try:
+#     from local_settings import *
+# except ImportError as e:
+#     no_local_settings = True
+
+# if no_local_settings:
+#     GOOGLE_API_KEY = 'fake-key'
+# else:
+#     GOOGLE_API_KEY = GOOGLE_API_SECRET_KEY

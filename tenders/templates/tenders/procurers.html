@@ -1,0 +1,24 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tenders/style.css' %}" />
+
+{% if all_procurers_list %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Company name</th>
+            <th>City</th>
+            <th>Full address</th>
+        </tr>
+        {% for procurer in all_procurers_list %}
+            <tr>
+                <td>{{ procurer.id }}</td>
+                <td>{{ procurer.company_name }}</td>
+                <td>{{ procurer.city }}</td>
+                <td>{{ procurer.address }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No procurers are available.</p>
+{% endif %}
