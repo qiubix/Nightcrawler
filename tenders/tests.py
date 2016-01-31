@@ -216,3 +216,10 @@ class DataReaderTests(TestCase):
         firstContractor = contractors[0]
         assert_that(firstContractor, is_not(None))
         assert_that(firstContractor.company_name, equal_to('HOLSTERS HPE Polska Grzegorz Szymański'))
+
+    def test_should_extract_contractor_city_from_text(self):
+        reader = DataReader()
+
+        name = reader.extractContractorCity(getSampleText())
+
+        assert_that(name, equal_to('Kielce'))
