@@ -223,3 +223,10 @@ class DataReaderTests(TestCase):
         name = reader.extractContractorCity(getSampleText())
 
         assert_that(name, equal_to('Kielce'))
+
+    def test_should_extract_contractor_full_address_from_text(self):
+        reader = DataReader()
+
+        name = reader.extractContractorAddress(getSampleText())
+
+        assert_that(name, equal_to('ul. Zagnańska 232, 25-563 Kielce'))

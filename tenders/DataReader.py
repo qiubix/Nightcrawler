@@ -127,3 +127,18 @@ class DataReader:
         else:
             city = ''
         return city
+
+    def extractContractorAddress(self, text):
+        unescapedText = html.unescape(text)
+        contractorSection = self.extractContractorSection(unescapedText)
+        if contractorSection != '':
+            soup = BeautifulSoup(contractorSection, 'html.parser')
+            addressData = soup.ul.li.string
+            street = addressData.split(',')[1]
+            street = self.trimSideWhitespace(street)
+            postal = addressData.split(',')[2]
+            postal = self.trimSideWhitespace(postal)
+            fullAddress = street + ', ' + postal
+        else:
+            fullAddress = ''
+        return fullAddress
