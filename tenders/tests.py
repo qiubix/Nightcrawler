@@ -11,10 +11,23 @@ from .DataReader import DataReader, ProcurerData
 from .CompanyLocator import CompanyLocator
 
 
+def createProcurer(companyName, city, address):
+    return Procurer.objects.create(company_name=companyName, city=city, address=address)
+
+
 # Create your tests here.
 class ModelTests(TestCase):
     def test_should_test_nothing_yet(self):
         self.assertEqual(1, 1)
+
+    def test_should_have_empty_location_by_default(self):
+        createProcurer('Company name', 'Some City', 'Full address')
+
+        name = Procurer.objects.get(id=1).company_name
+        lat = Procurer.objects.get(id=1).latitude
+
+        assert_that(name, equal_to('Company name'))
+        assert_that(lat, equal_to(None))
 
 
 class IndexViewTests(TestCase):
@@ -23,10 +36,6 @@ class IndexViewTests(TestCase):
         assert_that(response.status_code, equal_to(200))
         self.assertContains(response,
                             "This site displays map of contractors and procurers connected by executed contracts.")
-
-
-def createProcurer(companyName, city, address):
-    return Procurer.objects.create(company_name=companyName, city=city, address=address)
 
 
 class ProcurersViewTests(TestCase):
