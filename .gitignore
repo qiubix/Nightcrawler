@@ -68,3 +68,6 @@ test_tasks/
 
 # database files
 *.sqlite3
+
+# production settings
+Nightcrawler/settings/production.py
