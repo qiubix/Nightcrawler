@@ -5,6 +5,7 @@ from django.test import TestCase
 from tenders.TestTemplates import getSampleText
 from .models import Procurer, Contractor
 from .DataReader import DataReader, ProcurerData
+from .CompanyLocator import CompanyLocator
 
 
 # Create your tests here.
@@ -252,3 +253,13 @@ class DataReaderTests(TestCase):
         firstContractor = contractors[0]
         assert_that(firstContractor, is_not(None))
         assert_that(firstContractor.full_address, equal_to('ul. Zagnańska 232, 25-563 Kielce'))
+
+
+class CompanyLocatorTests(TestCase):
+    def test_should_get_first_procurer_location(self):
+        createProcurer('Name', 'Warszawa', 'ul. W.K. Roentgena 5, 02-781 Warszawa')
+        locator = CompanyLocator()
+
+        location = locator.getLocation(Procurer.objects.get(company_name='Name').address)
+        assert_that(location[0], equal_to(20))
+        assert_that(location[1], equal_to(150))
