@@ -4,20 +4,49 @@
 
 <h1>Public tenders map</h1>
 <p>This site displays map of contractors and procurers connected by executed contracts.</p>
+<p>latitude: {{ procurer.latitude }}</p>
+<p>longitude: {{ procurer.longitude }}</p>
 
 <a href="{% url 'tenders:procurers' %}">List of procurers</a>
 <a href="{% url 'tenders:contractors' %}">List of contractors</a>
 
-<div id="map"></div>
-<script>
-    function initMap() {
-        var mapDiv = document.getElementById('map');
-        var map = new google.maps.Map(mapDiv, {
-            center: {lat: 44.540, lng: -78.546},
-            zoom: 8
-        });
-    }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
-        async defer></script>
+<form action="{% url 'tenders:displayProcurers' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Display procurers" />
+</form>
+
+{% if procurer %}
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            var mapDiv = document.getElementById('map');
+            var map = new google.maps.Map(mapDiv, {
+                {#            center: {lat: 44.540, lng: -78.546},#}
+                center: {lat: {{ procurer.latitude }}, lng: {{ procurer.longitude }} },
+                zoom: 8
+            });
+            var marker = new google.maps.Marker({
+                position: {lat: {{ procurer.latitude }}, lng: {{ procurer.longitude }} },
+                map: map,
+                title: "{{ procurer.company_name }}"
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
+            async defer></script>
+{% else %}
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            var mapDiv = document.getElementById('map');
+            var map = new google.maps.Map(mapDiv, {
+                center: {lat: 44.540, lng: -78.546},
+                zoom: 8
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
+            async defer></script>
+{% endif %}
+
 
