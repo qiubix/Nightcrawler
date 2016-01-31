@@ -7,3 +7,17 @@
 
 <a href="{% url 'tenders:procurers' %}">List of procurers</a>
 <a href="{% url 'tenders:contractors' %}">List of contractors</a>
+
+<div id="map"></div>
+<script>
+    function initMap() {
+        var mapDiv = document.getElementById('map');
+        var map = new google.maps.Map(mapDiv, {
+            center: {lat: 44.540, lng: -78.546},
+            zoom: 8
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
+        async defer></script>
+
