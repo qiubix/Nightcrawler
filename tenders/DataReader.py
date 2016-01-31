@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 class ContractorData:
     def __init__(self):
         self.company_name = ''
+        self.city = ''
+        self.full_address = ''
 
 
 class ProcurerData:
@@ -22,15 +24,15 @@ class DataReader:
         self.document = None
 
     def load(self, fileName):
-        self.contractors.append(ContractorData())
 
         with open(fileName, 'r') as file:
             self.document = parse(file)
 
-        ogloszenia = self.document.getElementsByTagName('ogloszenie')
-        for ogloszenie in ogloszenia:
+        publications = self.document.getElementsByTagName('ogloszenie')
+        for publication in publications:
             procurer = ProcurerData()
-            childNodes = ogloszenie.childNodes
+            contractor = ContractorData()
+            childNodes = publication.childNodes
             for childNode in childNodes:
                 if childNode.nodeName == 'nazwa':
                     companyName = childNode.firstChild.nodeValue.rstrip()
@@ -43,7 +45,12 @@ class DataReader:
                     fullAddress = self.extractProcurersAddress(tenderText)
                     procurer.full_address = fullAddress
 
+                    contractorName = self.extractContractorName(tenderText)
+                    contractor.company_name = contractorName
+
             self.procurers.append(procurer)
+            if contractor.company_name != '':
+                self.contractors.append(contractor)
 
     def getContractors(self):
         return self.contractors
@@ -86,9 +93,12 @@ class DataReader:
     def extractContractorName(self, text):
         unescapedText = html.unescape(text)
         contractorSection = self.extractContractorSection(unescapedText)
-        soup = BeautifulSoup(contractorSection, 'html.parser')
-        addressData = soup.ul.li.string
-        name = addressData.split(',')[0]
+        if contractorSection != '':
+            soup = BeautifulSoup(contractorSection, 'html.parser')
+            addressData = soup.ul.li.string
+            name = addressData.split(',')[0]
+        else:
+            name = ''
         return name
 
     def extractContractorSection(self, unescapedText):

@@ -215,4 +215,4 @@ class DataReaderTests(TestCase):
         assert_that(len(contractors), greater_than(0))
         firstContractor = contractors[0]
         assert_that(firstContractor, is_not(None))
-        assert_that(firstContractor.company_name, equal_to(''))
+        assert_that(firstContractor.company_name, equal_to('HOLSTERS HPE Polska Grzegorz Szymański'))
