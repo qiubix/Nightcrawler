@@ -1,16 +1,33 @@
+from unittest.mock import MagicMock, Mock
+
+import googlemaps
 from hamcrest import *
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from tenders.TestTemplates import getSampleText
+from tenders.TestTemplates import getSampleText, getSampleGeocodeResult
 from .models import Procurer, Contractor
 from .DataReader import DataReader, ProcurerData
+from .CompanyLocator import CompanyLocator
+
+
+def createProcurer(companyName, city, address):
+    return Procurer.objects.create(company_name=companyName, city=city, address=address)
 
 
 # Create your tests here.
 class ModelTests(TestCase):
     def test_should_test_nothing_yet(self):
         self.assertEqual(1, 1)
+
+    def test_should_have_empty_location_by_default(self):
+        createProcurer('Company name', 'Some City', 'Full address')
+
+        name = Procurer.objects.get(id=1).company_name
+        lat = Procurer.objects.get(id=1).latitude
+
+        assert_that(name, equal_to('Company name'))
+        assert_that(lat, equal_to(None))
 
 
 class IndexViewTests(TestCase):
@@ -19,10 +36,6 @@ class IndexViewTests(TestCase):
         assert_that(response.status_code, equal_to(200))
         self.assertContains(response,
                             "This site displays map of contractors and procurers connected by executed contracts.")
-
-
-def createProcurer(companyName, city, address):
-    return Procurer.objects.create(company_name=companyName, city=city, address=address)
 
 
 class ProcurersViewTests(TestCase):
@@ -252,3 +265,16 @@ class DataReaderTests(TestCase):
         firstContractor = contractors[0]
         assert_that(firstContractor, is_not(None))
         assert_that(firstContractor.full_address, equal_to('ul. Zagnańska 232, 25-563 Kielce'))
+
+
+class CompanyLocatorTests(TestCase):
+    def test_should_get_first_procurer_location(self):
+        createProcurer('Name', 'Warszawa', 'ul. W.K. Roentgena 5, 02-781 Warszawa')
+        gmaps = Mock()
+        gmaps.geocode = MagicMock(return_value=getSampleGeocodeResult())
+        locator = CompanyLocator(gmaps)
+
+        firstProcurerAddress = Procurer.objects.get(company_name='Name').address
+        location = locator.getLocation(firstProcurerAddress)
+
+        assert_that(location, equal_to({'lat': 52.1481937, 'lng': 21.0308517}))
