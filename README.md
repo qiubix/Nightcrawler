@@ -1,6 +1,7 @@
 # Nightcrawler
 
 [![Build Status](https://travis-ci.org/qiubix/Nightcrawler.svg?branch=master)](https://travis-ci.org/qiubix/Nightcrawler)
+[![Coverage Status](https://coveralls.io/repos/github/qiubix/Nightcrawler/badge.svg?branch=master)](https://coveralls.io/github/qiubix/Nightcrawler?branch=master)
 
 Web application running on Django for displaying map of procurers and contractors of public tenders.
 
