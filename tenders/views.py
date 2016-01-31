@@ -12,10 +12,10 @@ from .models import Procurer, Tender, Contractor
 
 class IndexView(generic.ListView):
     template_name = 'tenders/index.html'
-    context_object_name = 'procurer'
+    context_object_name = 'procurers'
 
     def get_queryset(self):
-        return Procurer.objects.all().get(pk=2)
+        return Procurer.objects.all()
 
 
 class ProcurersView(generic.ListView):

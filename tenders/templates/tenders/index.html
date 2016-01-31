@@ -15,32 +15,35 @@
     <input type="submit" value="Display procurers" />
 </form>
 
-{% if procurer %}
-    <div id="map"></div>
-    <script>
-        function initMap() {
-            var mapDiv = document.getElementById('map');
-            var map = new google.maps.Map(mapDiv, {
-                {#            center: {lat: 44.540, lng: -78.546},#}
-                center: {lat: {{ procurer.latitude }}, lng: {{ procurer.longitude }} },
-                zoom: 8
-            });
-            var marker = new google.maps.Marker({
-                position: {lat: {{ procurer.latitude }}, lng: {{ procurer.longitude }} },
-                map: map,
-                title: "{{ procurer.company_name }}"
-            });
-        }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
-            async defer></script>
+{% if procurers %}
+    {% for procurer in procurers %}
+        {% if procurer.hasLocation  %}
+            <div id="map"></div>
+            <script>
+                function initMap() {
+                    var mapDiv = document.getElementById('map');
+                    var map = new google.maps.Map(mapDiv, {
+                        center: {lat: 52.1481937, lng: 21.0308517 },
+                        zoom: 8
+                    });
+                    var marker = new google.maps.Marker({
+                        position: {lat: {{ procurer.latitude }}, lng: {{ procurer.longitude }} },
+                        map: map,
+                        title: "{{ procurer.company_name }}"
+                    });
+                }
+            </script>
+            <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
+                    async defer></script>
+        {% endif %}
+    {% endfor %}
 {% else %}
     <div id="map"></div>
     <script>
         function initMap() {
             var mapDiv = document.getElementById('map');
             var map = new google.maps.Map(mapDiv, {
-                center: {lat: 44.540, lng: -78.546},
+                center: {lat: 52.1481937, lng: 21.0308517},
                 zoom: 8
             });
         }

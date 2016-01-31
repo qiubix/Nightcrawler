@@ -11,6 +11,12 @@ class Procurer(models.Model):
     def __str__(self):
         return self.company_name
 
+    def hasLocation(self):
+        if self.latitude is None or self.longitude is None:
+            return False
+        else:
+            return True
+
 
 class Contractor(models.Model):
     company_name = models.CharField(max_length=200)
